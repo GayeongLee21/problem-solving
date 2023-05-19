@@ -1,0 +1,54 @@
+/*Problem:
+You are given a list of N integers. You need to find the length of the longest increasing subsequence (LIS) in the list. A subsequence is a sequence that can be derived from the original list by deleting some or no elements without changing the order of the remaining elements. An increasing subsequence is a subsequence where the elements are arranged in non-decreasing order.
+Write a C++ function longestIncreasingSubsequence that takes in an integer array nums and its size N as parameters, and returns the length of the longest increasing subsequence in the array.
+The function should have the following signature:int longestIncreasingSubsequence(int nums[], int N);
+Constraints:
+--> 1 <= N <= 1000
+--> -10^9 <= nums[i] <= 10^9
+You need to implement an efficient algorithm to solve this problem. Your solution should have a time complexity of O(N^2) or better.
+Ex)int main() {
+    int nums[] = {10, 9, 2, 5, 3, 7, 101, 18};
+    int N = sizeof(nums) / sizeof(nums[0]);
+    int lisLength = longestIncreasingSubsequence(nums, N);
+    cout << "Length of the longest increasing subsequence: " << lisLength << endl;
+    return 0;
+    }
+Output: Length of the longest increasing subsequence: 4
+In the given example, the longest increasing subsequence is [2, 3, 7, 101], and its length is 4.
+
+<Soulution>*/
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int longestIncreasingSubsequence(int nums[], int N) {
+    std::vector<int> dp(N, 1);  // Dynamic programming array to store LIS lengths
+    
+    for (int i = 1; i < N; i++) {
+        for (int j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+        }
+    }
+    
+    int maxLength = 0;
+    for (int i = 0; i < N; i++) {
+        maxLength = std::max(maxLength, dp[i]);
+    }
+    
+    return maxLength;
+}
+
+int main() {
+    int nums[] = {10, 9, 2, 5, 3, 7, 101, 18};
+    int N = sizeof(nums) / sizeof(nums[0]);
+
+    int lisLength = longestIncreasingSubsequence(nums, N);
+    std::cout << "Length of the longest increasing subsequence: " << lisLength << std::endl;
+
+    return 0;
+}
+
+
